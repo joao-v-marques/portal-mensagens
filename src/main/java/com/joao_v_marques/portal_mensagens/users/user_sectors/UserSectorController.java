@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
@@ -31,7 +32,10 @@ public class UserSectorController {
     public ResponseEntity<UserSectorResponse> create(@Valid @RequestBody UserSectorRequest request) {
         UserSectorResponse created = userSectorService.create(request);
 
-        URI location = URI.create("api/user-sectors/" + created.id());
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(created.id())
+                .toUri();
 
         return ResponseEntity.created(location).body(created);
     }
