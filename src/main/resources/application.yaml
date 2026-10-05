@@ -8,6 +8,12 @@ app:
     expiration: ${JWT_EXPIRATION:86400000}
   security:
     cookie-secure: ${COOKIE_SECURE:false}
+  gupshup:
+    base-url: ${GUPSHUP_BASE_URL:https://api.gupshup.io}
+    api-key: ${GUPSHUP_API_KEY:}
+    app-name: ${GUPSHUP_APP_NAME:}
+    source-number: ${GUPSHUP_SOURCE_NUMBER:}
+    webhook-token: ${GUPSHUP_WEBHOOK_TOKEN:}
 
 spring:
   datasource:
@@ -22,3 +28,7 @@ spring:
     locations: classpath:db/migration
   application:
     name: portal-mensagens
+  http:
+    clients:
+      connect-timeout: 5s
+      read-timeout: 15s
