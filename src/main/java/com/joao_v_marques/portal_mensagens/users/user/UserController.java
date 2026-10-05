@@ -1,6 +1,7 @@
 package com.joao_v_marques.portal_mensagens.users.user;
 
 import com.joao_v_marques.portal_mensagens.security.UserPrincipal;
+import com.joao_v_marques.portal_mensagens.users.user.dto.ResetPasswordRequest;
 import com.joao_v_marques.portal_mensagens.users.user.dto.UserRequest;
 import com.joao_v_marques.portal_mensagens.users.user.dto.UserResponse;
 import com.joao_v_marques.portal_mensagens.users.user.dto.UserUpdateRequest;
@@ -47,5 +48,13 @@ public class UserController {
         UserResponse updated = userService.update(id, request);
 
         return ResponseEntity.ok(updated);
+    }
+
+    // PATCH para o administrador redefinir a senha de um usuário
+    @PatchMapping(value = "/{id}/password", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> resetPassword(@PathVariable Integer id, @Valid @RequestBody ResetPasswordRequest request) {
+        userService.resetPassword(id, request);
+
+        return ResponseEntity.noContent().build();
     }
 }

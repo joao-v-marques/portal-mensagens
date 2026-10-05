@@ -2,6 +2,8 @@ package com.joao_v_marques.portal_mensagens.users.user;
 
 import com.joao_v_marques.portal_mensagens.users.roles.Role;
 import com.joao_v_marques.portal_mensagens.users.roles.RoleRepository;
+import com.joao_v_marques.portal_mensagens.users.auth.dto.ChangePasswordRequest;
+import com.joao_v_marques.portal_mensagens.users.user.dto.ResetPasswordRequest;
 import com.joao_v_marques.portal_mensagens.users.user.dto.UserRequest;
 import com.joao_v_marques.portal_mensagens.users.user.dto.UserResponse;
 import com.joao_v_marques.portal_mensagens.users.user.dto.UserUpdateRequest;
@@ -120,6 +122,35 @@ public class UserService {
         user.setSector(userSector);
 
         return toResponse(user);
+    }
+
+    // PATCH da senha do próprio usuário logado (exige a senha atual)
+    @Transactional
+    public void changeOwnPassword(Integer userId, ChangePasswordRequest request) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("Não foi encontrado nenhum usuário com o ID fornecido."));
+
+        if (!passwordEncoder.matches(request.currentPassword(), user.getPasswordHash())) {
+            throw new IllegalArgumentException("A senha atual está incorreta.");
+        }
+        if (passwordEncoder.matches(request.newPassword(), user.getPasswordHash())) {
+            throw new IllegalArgumentException("A nova senha deve ser diferente da senha atual.");
+        }
+
+        user.setPasswordHash(passwordEncoder.encode(request.newPassword()));
+    }
+
+    // PATCH da senha de um usuário pelo administrador (não exige a senha atual)
+    @Transactional
+    public void resetPassword(Integer userId, ResetPasswordRequest request) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("Não foi encontrado nenhum usuário com o ID fornecido."));
+
+        if (!user.isActive()) {
+            throw new IllegalArgumentException("Não é possível alterar a senha de um usuário inativo.");
+        }
+
+        user.setPasswordHash(passwordEncoder.encode(request.newPassword()));
     }
 
     private UserResponse toResponse(User user) {
