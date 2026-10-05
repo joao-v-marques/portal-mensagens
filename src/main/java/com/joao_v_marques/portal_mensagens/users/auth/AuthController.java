@@ -4,11 +4,14 @@ import com.joao_v_marques.portal_mensagens.security.JwtService;
 import com.joao_v_marques.portal_mensagens.security.UserPrincipal;
 import com.joao_v_marques.portal_mensagens.users.auth.dto.AuthRequest;
 import com.joao_v_marques.portal_mensagens.users.auth.dto.AuthResponse;
+import com.joao_v_marques.portal_mensagens.users.auth.dto.ChangePasswordRequest;
 import com.joao_v_marques.portal_mensagens.users.auth.dto.CurrentUserResponse;
+import com.joao_v_marques.portal_mensagens.users.user.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,12 +27,14 @@ public class AuthController {
 
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
+    private final UserService userService;
 
     private final boolean secureCookie;
 
-    public AuthController(AuthenticationManager authenticationManager, JwtService jwtService, @Value("${app.security.cookie-secure}") boolean secureCookie) {
+    public AuthController(AuthenticationManager authenticationManager, JwtService jwtService, UserService userService, @Value("${app.security.cookie-secure}") boolean secureCookie) {
         this.authenticationManager = authenticationManager;
         this.jwtService = jwtService;
+        this.userService = userService;
         this.secureCookie = secureCookie;
     }
 
@@ -52,6 +57,14 @@ public class AuthController {
     @GetMapping("/me")
     public CurrentUserResponse me(@AuthenticationPrincipal UserPrincipal principal) {
         return new CurrentUserResponse(principal.getName(), principal.getUsername(), principal.getRoleName());
+    }
+
+    // PATCH para o usuário logado trocar a própria senha
+    @PatchMapping(value = "/me/password", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> changePassword(@Valid @RequestBody ChangePasswordRequest request, @AuthenticationPrincipal UserPrincipal principal) {
+        userService.changeOwnPassword(principal.getId(), request);
+
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/logout")
