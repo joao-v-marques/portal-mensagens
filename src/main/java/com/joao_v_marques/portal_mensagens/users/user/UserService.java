@@ -153,6 +153,42 @@ public class UserService {
         user.setPasswordHash(passwordEncoder.encode(request.newPassword()));
     }
 
+    // PATCH para desativar um usuário (soft delete)
+    @Transactional
+    public UserResponse deactivate(Integer userId, Integer currentUserId) {
+        // Valida se o usuário desativado realmente existe
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("Não foi encontrado nenhum usuário com o ID fornecido."));
+
+        // Impede que o administrador tranque o próprio acesso
+        if (userId.equals(currentUserId)) {
+            throw new IllegalArgumentException("Não é possível desativar o próprio usuário.");
+        }
+        if (!user.isActive()) {
+            throw new IllegalArgumentException("Este usuário já está inativo.");
+        }
+
+        user.setActive(false);
+
+        return toResponse(user);
+    }
+
+    // PATCH para reativar um usuário
+    @Transactional
+    public UserResponse reactivate(Integer userId) {
+        // Valida se o usuário reativado realmente existe
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("Não foi encontrado nenhum usuário com o ID fornecido."));
+
+        if (user.isActive()) {
+            throw new IllegalArgumentException("Este usuário já está ativo.");
+        }
+
+        user.setActive(true);
+
+        return toResponse(user);
+    }
+
     private UserResponse toResponse(User user) {
         return new UserResponse(
                 user.getId(),

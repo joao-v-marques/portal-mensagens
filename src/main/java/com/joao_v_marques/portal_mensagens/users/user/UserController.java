@@ -57,4 +57,20 @@ public class UserController {
 
         return ResponseEntity.noContent().build();
     }
+
+    // PATCH para desativar um usuário (soft delete)
+    @PatchMapping(value = "/{id}/deactivate")
+    public ResponseEntity<UserResponse> deactivate(@PathVariable Integer id, @AuthenticationPrincipal UserPrincipal principal) {
+        UserResponse deactivated = userService.deactivate(id, principal.getId());
+
+        return ResponseEntity.ok(deactivated);
+    }
+
+    // PATCH para reativar um usuário
+    @PatchMapping(value = "/{id}/reactivate")
+    public ResponseEntity<UserResponse> reactivate(@PathVariable Integer id) {
+        UserResponse reactivated = userService.reactivate(id);
+
+        return ResponseEntity.ok(reactivated);
+    }
 }
