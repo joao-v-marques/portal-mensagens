@@ -1,4 +1,4 @@
-package com.joao_v_marques.portal_mensagens.exceptions;
+package com.joao_v_marques.portal_mensagens.shared.exceptions;
 
 import java.util.Map;
 

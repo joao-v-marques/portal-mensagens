@@ -1,6 +1,6 @@
 package com.joao_v_marques.portal_mensagens.security;
 
-import com.joao_v_marques.portal_mensagens.exceptions.ApiError;
+import com.joao_v_marques.portal_mensagens.shared.exceptions.ApiError;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.MediaType;

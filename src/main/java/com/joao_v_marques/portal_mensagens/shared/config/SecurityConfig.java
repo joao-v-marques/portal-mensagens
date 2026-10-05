@@ -1,4 +1,4 @@
-package com.joao_v_marques.portal_mensagens.config;
+package com.joao_v_marques.portal_mensagens.shared.config;
 
 import com.joao_v_marques.portal_mensagens.security.*;
 import org.springframework.context.annotation.Bean;
