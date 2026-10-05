@@ -3,6 +3,7 @@ package com.joao_v_marques.portal_mensagens.users.user;
 import com.joao_v_marques.portal_mensagens.security.UserPrincipal;
 import com.joao_v_marques.portal_mensagens.users.user.dto.UserRequest;
 import com.joao_v_marques.portal_mensagens.users.user.dto.UserResponse;
+import com.joao_v_marques.portal_mensagens.users.user.dto.UserUpdateRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -38,5 +39,13 @@ public class UserController {
                 .toUri();
 
         return ResponseEntity.created(location).body(created);
+    }
+
+    // PUT de um usuário já existente (não altera a senha)
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserResponse> update(@PathVariable Integer id, @Valid @RequestBody UserUpdateRequest request) {
+        UserResponse updated = userService.update(id, request);
+
+        return ResponseEntity.ok(updated);
     }
 }

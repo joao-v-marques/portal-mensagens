@@ -4,6 +4,7 @@ import com.joao_v_marques.portal_mensagens.users.roles.Role;
 import com.joao_v_marques.portal_mensagens.users.roles.RoleRepository;
 import com.joao_v_marques.portal_mensagens.users.user.dto.UserRequest;
 import com.joao_v_marques.portal_mensagens.users.user.dto.UserResponse;
+import com.joao_v_marques.portal_mensagens.users.user.dto.UserUpdateRequest;
 import com.joao_v_marques.portal_mensagens.users.user_sectors.UserSector;
 import com.joao_v_marques.portal_mensagens.users.user_sectors.UserSectorRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -76,6 +77,49 @@ public class UserService {
         User created = userRepository.save(user);
 
         return toResponse(created);
+    }
+
+    // PUT de um usuário já existente (não altera a senha)
+    @Transactional
+    public UserResponse update(Integer userId, UserUpdateRequest request) {
+        String name = StringUtils.hasText(request.name()) ? request.name().trim() : null;
+        String username = request.username().trim();
+        UserSector userSector = null;
+
+        // Valida se o usuário editado realmente existe
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("Não foi encontrado nenhum usuário com o ID fornecido."));
+
+        if (!user.isActive()) {
+            throw new IllegalArgumentException("Não é possível editar um usuário inativo.");
+        }
+
+        // Validando as FK's
+        Role role = roleRepository.findById(request.roleId())
+                .orElseThrow(() -> new IllegalArgumentException("A função informada não existe."));
+        if (!role.isActive()) {
+            throw new IllegalArgumentException("Não é possível atribuir uma função inativa ao usuário.");
+        }
+        if (request.sectorId() != null) {
+            userSector = userSectorRepository.findById(request.sectorId())
+                    .orElseThrow(() -> new IllegalArgumentException("O setor informado não existe"));
+            if (!userSector.isActive()) {
+                throw new IllegalArgumentException("Não é possível atribuir um setor inativo ao usuário.");
+            }
+        }
+
+        // Verifica se o username já pertence a outro usuário
+        if (userRepository.existsByUsernameIgnoreCaseAndIdNot(username, userId)) {
+            throw new IllegalArgumentException("Já existe outro usuário com esse username.");
+        }
+
+        // Atualizar a entidade já existente
+        user.setName(name);
+        user.setUsername(username);
+        user.setRole(role);
+        user.setSector(userSector);
+
+        return toResponse(user);
     }
 
     private UserResponse toResponse(User user) {
