@@ -40,3 +40,5 @@ CREATE TABLE users (
     CONSTRAINT fk_user_inserted_by FOREIGN KEY (inserted_by) REFERENCES users(id)
 );
 
+INSERT INTO users (name, username, password_hash, role_id, sector_id)
+VALUES ('Administrador do Sistema', 'admin', '$2a$10$h4f7H0W.Qectz4L9yg3Jsuqpdzcu3bRem2Ww8sxjv.xTiy0.ne74q', 1, 1);
