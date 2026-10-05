@@ -1,6 +1,6 @@
 server:
   servlet:
-    context-path: /portal-atendimento
+    context-path: /portal-mensagens
 
 app:
   jwt:
