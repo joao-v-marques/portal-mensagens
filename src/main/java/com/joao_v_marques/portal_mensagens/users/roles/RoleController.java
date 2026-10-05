@@ -31,7 +31,10 @@ public class RoleController {
     public ResponseEntity<RoleResponse> create(@Valid @RequestBody RoleRequest request) {
         RoleResponse created = roleService.create(request);
 
-        URI location = URI.create("api/roles/" + created.id());
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(created.id())
+                .toUri();
 
         return ResponseEntity.created(location).body(created);
     }
