@@ -31,7 +31,7 @@ public class RoleController {
     public ResponseEntity<RoleResponse> create(@Valid @RequestBody RoleRequest request) {
         RoleResponse created = roleService.create(request);
 
-        URI location = URI.create("api/user-roles/" + created.id());
+        URI location = URI.create("api/roles/" + created.id());
 
         return ResponseEntity.created(location).body(created);
     }
