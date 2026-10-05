@@ -1,6 +1,6 @@
 package com.joao_v_marques.portal_mensagens.users.user;
 
-import com.joao_v_marques.portal_mensagens.security.UserPrincipal;
+import com.joao_v_marques.portal_mensagens.shared.security.UserPrincipal;
 import com.joao_v_marques.portal_mensagens.users.user.dto.ResetPasswordRequest;
 import com.joao_v_marques.portal_mensagens.users.user.dto.UserRequest;
 import com.joao_v_marques.portal_mensagens.users.user.dto.UserResponse;

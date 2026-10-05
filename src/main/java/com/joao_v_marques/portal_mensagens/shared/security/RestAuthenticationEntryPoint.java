@@ -1,4 +1,4 @@
-package com.joao_v_marques.portal_mensagens.security;
+package com.joao_v_marques.portal_mensagens.shared.security;
 
 import com.joao_v_marques.portal_mensagens.shared.exceptions.ApiError;
 import jakarta.servlet.http.HttpServletRequest;

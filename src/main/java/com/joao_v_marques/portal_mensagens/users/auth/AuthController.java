@@ -1,7 +1,7 @@
 package com.joao_v_marques.portal_mensagens.users.auth;
 
-import com.joao_v_marques.portal_mensagens.security.JwtService;
-import com.joao_v_marques.portal_mensagens.security.UserPrincipal;
+import com.joao_v_marques.portal_mensagens.shared.security.JwtService;
+import com.joao_v_marques.portal_mensagens.shared.security.UserPrincipal;
 import com.joao_v_marques.portal_mensagens.users.auth.dto.AuthRequest;
 import com.joao_v_marques.portal_mensagens.users.auth.dto.AuthResponse;
 import com.joao_v_marques.portal_mensagens.users.auth.dto.ChangePasswordRequest;

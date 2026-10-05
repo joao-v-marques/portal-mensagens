@@ -1,6 +1,6 @@
 package com.joao_v_marques.portal_mensagens.shared.config;
 
-import com.joao_v_marques.portal_mensagens.security.*;
+import com.joao_v_marques.portal_mensagens.shared.security.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
