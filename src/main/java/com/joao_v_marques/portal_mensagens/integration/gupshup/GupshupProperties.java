@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
 @Validated
-@ConfigurationProperties(prefix = "app.gupshop")
+@ConfigurationProperties(prefix = "app.gupshup")
 public record GupshupProperties(
         @NotBlank
         String baseUrl,
