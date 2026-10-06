@@ -32,3 +32,14 @@ spring:
     clients:
       connect-timeout: 5s
       read-timeout: 15s
+
+oracle:
+  datasource:
+    url: jdbc:oracle:thin:@//${ORACLE_HOST}:1521/${ORACLE_SERVICE}
+    username: ${ORACLE_USER}
+    password: ${ORACLE_PASSWORD}
+    hikari:
+      pool-name: oracle-pool
+      maximum-pool-size: 3          # pouco tráfego, não ocupe conexões do sistema deles
+      read-only: true
+      connection-timeout: 10000
