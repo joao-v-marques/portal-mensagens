@@ -28,7 +28,7 @@ public class SecurityConfig {
 
         return http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/api/auth/login", "/api/auth/logout", "/error", "/css/**", "/js/**").permitAll()
+                        .requestMatchers("/login", "/api/auth/login", "/api/auth/logout", "/error", "/css/**", "/js/**", "/api/integrations/gupshup/webhook/**").permitAll()
 
                         // Tela e API de administração: só ADMINISTRATOR. O 403 fora de /api/** redireciona para home?erro=sem-acesso
                         .requestMatchers("/api/users/**", "/api/roles/**", "/api/user-sectors/**").hasRole("ADMINISTRATOR")
