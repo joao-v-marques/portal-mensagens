@@ -33,3 +33,4 @@ build/
 .vscode/
 
 .env
+internal-documentation.md
