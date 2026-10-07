@@ -16,6 +16,8 @@ app:
     webhook-token: ${GUPSHUP_WEBHOOK_TOKEN:}
 
 spring:
+  config:
+    import: optional:file:.env[.properties]
   datasource:
     url: ${DB_URL:jdbc:postgresql://localhost:5434/portal_mensagens}
     username: ${DB_USERNAME:postgres}
