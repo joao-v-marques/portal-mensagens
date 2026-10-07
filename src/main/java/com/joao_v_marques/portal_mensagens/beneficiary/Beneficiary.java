@@ -6,5 +6,6 @@ public record Beneficiary(
     String name,
     String cpf,
     LocalDateTime birthDate,
-    String phoneNumber
+    String phoneNumber,
+    String phoneNumber2
 ) {}
