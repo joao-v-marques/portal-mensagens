@@ -14,6 +14,24 @@ public class BeneficiaryService {
     }
 
     public List<Beneficiary> findActive() {
-        return beneficiaryRepository.findActive();
+        List<Beneficiary> beneficiaries = beneficiaryRepository.findActive();
+
+        // Tratar as informações antes de retornar
+        beneficiaries = beneficiaries.stream()
+                .map(e -> {
+                    String phoneNumber = (e.phoneNumber() == null || e.phoneNumber().isBlank()) ? null : e.phoneNumber().trim();
+                    String phoneNumber2 = (e.phoneNumber2() == null || e.phoneNumber2().isBlank()) ? null : e.phoneNumber2().trim();
+
+                    return new Beneficiary(
+                            e.name(),
+                            e.cpf(),
+                            e.birthDate(),
+                            phoneNumber,
+                            phoneNumber2
+                    );
+                 })
+                .toList();
+
+        return beneficiaries;
     }
 }
