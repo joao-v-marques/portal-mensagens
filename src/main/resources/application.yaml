@@ -14,6 +14,11 @@ app:
     app-name: ${GUPSHUP_APP_NAME:}
     source-number: ${GUPSHUP_SOURCE_NUMBER:}
     webhook-token: ${GUPSHUP_WEBHOOK_TOKEN:}
+  billing:
+    base-url: ${BILLING_BASE_URL:}
+    copy-id: ${BILLING_COPY_ID:}
+    cnpj: ${BILLING_CNPJ:}
+    password: ${BILLING_PASSWORD:}
 
 spring:
   config:
